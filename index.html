@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3MalerMatch Opgaver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        .task-container {
+            max-width: 800px;
+            margin: 2em auto;
+            padding: 1em;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .task {
+            margin-bottom: 1.5em;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 1em;
+        }
+
+        .blurred {
+            filter: blur(10px);
+            pointer-events: none;
+        }
+
+        .unlock-btn, .buy-clips-btn {
+            margin-top: 1em;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 0.5em 1em;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .clip-counter {
+            text-align: center;
+            margin-top: 1em;
+        }
+
+        .task-details {
+            margin-bottom: 0.5em;
+        }
+
+        .buy-clips-container {
+            text-align: center;
+            margin: 2em auto;
+            background-color: #ddd;
+            padding: 1em;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>3MalerMatch Opgaver</h1>
+        <p>Brug dine klip for at låse kontaktoplysninger op!</p>
+    </header>
+
+    <div class="clip-counter">
+        <strong>Klip tilbage: <span id="clip-count">0</span></strong>
+    </div>
+
+    <!-- Køb klip sektion -->
+    <div class="buy-clips-container">
+        <h2>Køb klippekort</h2>
+        <p>Send en e-mail for at købe klippekort:</p>
+        <button class="buy-clips-btn" onclick="buyClipsByEmail(10, 3000)">Køb 10 klip for 3000 kr</button>
+        <button class="buy-clips-btn" onclick="buyClipsByEmail(20, 5000)">Køb 20 klip for 5000 kr</button>
+        <button class="buy-clips-btn" onclick="buyClipsByEmail(40, 8000)">Køb 40 klip for 8000 kr</button>
+    </div>
+
+    <div class="task-container">
+        <!-- Opgave 1 -->
+        <div class="task">
+            <div class="task-details">
+                <p><strong>Navn:</strong> Mikkel E Frost</p>
+                <p><strong>By/Postnummer:</strong> 2650 Hvidovre</p>
+                <p><strong>Kvm:</strong> 120</p>
+                <p><strong>Rum:</strong> 4</p>
+                <p><strong>Dato:</strong> 15. januar 2025</p>
+            </div>
+            <div class="task-content blurred" id="task1">
+                <p><strong>Beskrivelse:</strong> Maling af stue og køkken inkl. loft og vægge.</p>
+                <p><strong>Email:</strong> kontakt@mikkel.com</p>
+                <p><strong>Telefon:</strong> 12345678</p>
+            </div>
+            <button class="unlock-btn" onclick="unlockTask('task1', this)">Lås kontaktoplysninger op</button>
+        </div>
+
+        <!-- Flere opgaver som tidligere -->
+        <!-- Opgave 2 -->
+        <div class="task">
+            <div class="task-details">
+                <p><strong>Navn:</strong> Mahdi</p>
+                <p><strong>By/Postnummer:</strong> Taastrup</p>
+                <p><strong>Kvm:</strong> 50</p>
+                <p><strong>Rum:</strong> 3</p>
+                <p><strong>Dato:</strong> 28. januar 2025</p>
+            </div>
+            <div class="task-content blurred" id="task2">
+                <p><strong>Beskrivelse:</strong> Spartling og maling af værelser.</p>
+                <p><strong>Email:</strong> mahdi@mail.com</p>
+                <p><strong>Telefon:</strong> 98765432</p>
+            </div>
+            <button class="unlock-btn" onclick="unlockTask('task2', this)">Lås kontaktoplysninger op</button>
+        </div>
+    </div>
+
+    <script>
+        let clipCount = 0;
+
+        function unlockTask(taskId, button) {
+            if (clipCount > 0) {
+                const taskContent = document.getElementById(taskId);
+                taskContent.classList.remove('blurred');
+                button.style.display = 'none';
+
+                clipCount--;
+                updateClipCount();
+            } else {
+                alert('Du har ikke flere klip tilbage! Køb flere for at fortsætte.');
+            }
+        }
+
+        function buyClipsByEmail(clips, price) {
+            const subject = encodeURIComponent("Bestilling af klippekort");
+            const body = encodeURIComponent(`Hej 3MalerMatch,\n\nJeg ønsker hermed at købe ${clips} klip for ${price} kr.\n\nVenlig hilsen\n[Dit Navn]\n[Dit Telefonnummer]`);
+            const mailtoLink = `mailto:klip@3malermatch.dk?subject=${subject}&body=${body}`;
+            
+            window.location.href = mailtoLink;
+        }
+
+        function updateClipCount() {
+            document.getElementById('clip-count').textContent = clipCount;
+        }
+    </script>
+</body>
+</html>
